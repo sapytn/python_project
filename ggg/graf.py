@@ -2,49 +2,60 @@
 import pylab
 import matplotlib.path
 from microprogram import calc_points
+import matplotlib.pyplot as plt
+import numpy as np
 
 
-def draw_arc(axes, arc_x, arc_y, arc_width):
+# plt.style.use(['dark_background', 'presentation'])
+
+
+def draw_arc(axes, arc_x, arc_y, arc_width, angle_start, angle_end):
     """
     Рисование дуги
     """
-    # arc_x = 25
-    # arc_y = 35
     arc_height = arc_width
-    # arc_theta1 = 0
-    # arc_theta2 = 180
-
     arc = matplotlib.patches.Arc((arc_x, arc_y),
                                  arc_width,
                                  arc_height,
-                                 # theta1=arc_theta1,
-                                 # theta2=arc_theta2
+                                 theta1=angle_start,
+                                 theta2=angle_end,
+                                 color="g",
+                                 linewidth=1.0
                                  )
     axes.add_patch(arc)
 
 
-param = (10, -10, 100, 10, 50, 50, 25)
-param4 = (10, -10, 100, 10, 40, -40, 25)
+def draw_line(axes, x, y):
+    """
+    Рисование линии
+    """
+    line = pylab.Line2D([x[0], x[1]], [y[0], y[1]], color="g", linewidth=1.0)
+    line1 = pylab.Line2D([x[2], x[3]], [y[2], y[3]], color="g", linewidth=1.0)
+    axes.add_line(line)
+    axes.add_line(line1)
+
+
+param = (0, 0, 100, 0, 50, 50, 25)
+param4 = (0, 0, 100, 0, 50, -50, 25)
 param1 = (75, 50, 100, 0, 0, -25, 25)
 param2 = (100, 0, 50, -50, -25, -25, 25)
 param3 = (-50, -50, 0, 0, -25, 25, 25)
 
+plt.figure()
+ax = plt.subplot()
+plt.axis([-30, 130, -80, 80])
 
-axes = pylab.gca()
-axes.set_aspect("equal")
+x, y, i, j, r, angle_start, angle_end = calc_points(param)
+draw_arc(ax, i, j, r * 2, angle_start, angle_end)
+draw_line(ax, x, y)
 
-# x, y, i, j, r, arc_theta1, arc_theta2 = calc_points(param)
-# draw_arc(axes, i, j, r * 2, arc_theta2, arc_theta1)
+x, y, i, j, r, angle_start, angle_end = calc_points(param4)
+draw_arc(ax, i, j, r * 2, angle_start, angle_end)
+draw_line(ax, x, y)
 
-x, y, i, j, r = calc_points(param)
-draw_arc(axes, i, j, r * 2)
-
-pylab.plot(x, y)
-
-x, y, i, j, r = calc_points(param4)
-draw_arc(axes, i, j, r * 2)
-
-pylab.plot(x, y)
+with plt.style.context('dark_background'):
+    plt.plot(np.sin(np.linspace(0, 2 * np.pi)), 'r-o')
+plt.show()
 
 # показываем график
 pylab.show()
