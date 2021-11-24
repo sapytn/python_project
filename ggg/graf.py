@@ -3,6 +3,7 @@ import pylab
 import matplotlib.path
 from microprogram import calc_points
 import matplotlib.pyplot as plt
+from matplotlib.ticker import  MultipleLocator
 import numpy as np
 
 
@@ -41,9 +42,12 @@ param1 = (75, 50, 100, 0, 0, -25, 25)
 param2 = (100, 0, 50, -50, -25, -25, 25)
 param3 = (-50, -50, 0, 0, -25, 25, 25)
 
-plt.figure()
-ax = plt.subplot()
+
+f, ax = plt.subplots()
 plt.axis([-30, 130, -80, 80])
+# plt.grid()
+f.set_facecolor('#eee')
+
 
 x, y, i, j, r, angle_start, angle_end = calc_points(param)
 draw_arc(ax, i, j, r * 2, angle_start, angle_end)
@@ -52,10 +56,6 @@ draw_line(ax, x, y)
 x, y, i, j, r, angle_start, angle_end = calc_points(param4)
 draw_arc(ax, i, j, r * 2, angle_start, angle_end)
 draw_line(ax, x, y)
-
-with plt.style.context('dark_background'):
-    plt.plot(np.sin(np.linspace(0, 2 * np.pi)), 'r-o')
-plt.show()
 
 # показываем график
 pylab.show()
